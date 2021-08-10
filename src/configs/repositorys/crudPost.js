@@ -2,7 +2,7 @@ const Post = require("../../models/post");
 const { database, dbInfos } = require("../database")
 const login = require("./login")
 
-const getPostById = async (request, response) => {
+const getPost = async (request, response) => {
 
   const client = new database(dbInfos);
 
@@ -33,8 +33,8 @@ const getPostById = async (request, response) => {
     client.query(sqlById, [id], (error, results) => {
       if (error) {
         throw error;
-      } else if (results.rows > 0) {
-        response.status(200).json({ mensagem: 'SUCESSO', item: results.rows })
+      } else if (results.rows.length > 0) {
+        response.status(200).json({ mensagem: 'SUCCESS', item: results.rows })
       } else {
         response.status(404).json({ mensagem: 'USER_NOT_FOUND', item: results.rows })
       }
@@ -44,7 +44,7 @@ const getPostById = async (request, response) => {
       if (error) {
         throw error
       }
-      response.status(200).json({ mensagem: 'SUCESSO_ALL', item: results.rows })
+      response.status(200).json({ mensagem: 'SUCCESS_FOR_ALL', item: results.rows })
     })
   }
   client.end();
@@ -82,7 +82,14 @@ const createPost = async (request, response) => {
       if (error) {
         throw error;
       }
-      response.status(201).json({ mensagem: 'SUCESSO', item: results.rows })
+      response.status(201).json({ mensagem: 'SUCESSO', item: [
+        {
+          title: postCreated.getTitle(),
+          body: postCreated.getBody(),
+          data: postCreated.getData(),
+          tempo: postCreated.getTempo()
+        }
+      ] })
     });
 
   client.end();
@@ -91,11 +98,26 @@ const createPost = async (request, response) => {
 const deletePost = async (request, response) => {
   const client = new database(dbInfos);
   
-  const id = request.body.id
+  const id = request.body.id;
+
+  const sql = 'DELETE from '
+  + 'post '
+  + 'WHERE id = $1'
+
+  await client.connect();
+
+  client.query(sql, [id], (error) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json({ mensagem: 'SUCESSO', item: { id: id } })
+  });
+
+  client.end();
 }
 
 module.exports = {
-  getPostById,
+  getPost,
   createPost,
   deletePost,
 }

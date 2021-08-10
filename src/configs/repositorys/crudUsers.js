@@ -1,7 +1,7 @@
 const Usuario = require("../../models/usuario");
 const { database, dbInfos } = require("../database");
 
-const getUsuarioByID = async (request, response) => {
+const getUsuario = async (request, response) => {
 
   const client = new database(dbInfos)
 
@@ -34,7 +34,7 @@ const getUsuarioByID = async (request, response) => {
       if (error) {
         throw error;
       } else if (results.rows.length > 0) {
-        response.status(200).json({ mensagem: 'SUCESSO', item: results.rows });
+        response.status(200).json({ mensagem: 'SUCCESS', item: results.rows });
       } else {
         response.status(404).json({ mensagem: 'USER_NOT_FOUND', item: results.rows });
       }
@@ -44,7 +44,7 @@ const getUsuarioByID = async (request, response) => {
       if (error) {
         throw error;
       }
-      response.status(200).json({ mensagem: 'SUCESSO', item: results.rows });
+      response.status(200).json({ mensagem: 'SUCCESS_FOR_ALL', item: results.rows });
     })
   }
 
@@ -140,12 +140,12 @@ const deleteUsuario = async (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).json({ mensagem: 'SUCESSO', item: result.rows })
+    response.status(200).json({ mensagem: 'SUCESSO', item: { id: id } })
   })
   client.end();
 }
 module.exports = {
-  getUsuarioByID,
+  getUsuario,
   createUsuario,
   deleteUsuario,
 }
