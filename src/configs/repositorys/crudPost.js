@@ -36,7 +36,7 @@ const getPost = async (request, response) => {
       } else if (results.rows.length > 0) {
         response.status(200).json({ mensagem: 'SUCCESS', item: results.rows })
       } else {
-        response.status(404).json({ mensagem: 'USER_NOT_FOUND', item: results.rows })
+        response.status(404).json({ mensagem: 'POST_NOT_FOUND', item: results.rows })
       }
     })
   } else {
@@ -82,7 +82,7 @@ const createPost = async (request, response) => {
       if (error) {
         throw error;
       }
-      response.status(201).json({ mensagem: 'SUCESSO', item: [
+      response.status(201).json({ mensagem: 'SUCCESS', item: [
         {
           title: postCreated.getTitle(),
           body: postCreated.getBody(),
@@ -110,7 +110,7 @@ const deletePost = async (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).json({ mensagem: 'SUCESSO', item: { id: id } })
+    response.status(200).json({ mensagem: 'SUCCESS', item: { id: id } })
   });
 
   client.end();

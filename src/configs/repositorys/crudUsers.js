@@ -140,7 +140,7 @@ const deleteUsuario = async (request, response) => {
     if (error) {
       throw error
     }
-    response.status(200).json({ mensagem: 'SUCESSO', item: { id: id } })
+    response.status(200).json({ mensagem: 'SUCCESS', item: { id: id } })
   })
   client.end();
 }
