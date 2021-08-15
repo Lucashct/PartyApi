@@ -14,13 +14,13 @@ app.use(
   })
 )
 
-app.get('/usuario/recuperar', crudUsers.getUsuario)
+app.post('/usuario/recuperar', crudUsers.getUsuario)
 app.post('/usuario/criar', crudUsers.createUsuario)
-app.delete('/usuario/remover', crudUsers.deleteUsuario)
-app.get('/login', login.loginOnApp)
-app.get('/post/recuperar', crudPost.getPost)
+app.post('/usuario/remover', crudUsers.deleteUsuario)
+app.post('/login', login.loginOnApp)
+app.post('/post/recuperar', crudPost.getPost)
 app.post('/post/criar', crudPost.createPost)
-app.delete('/post/deletar', crudPost.deletePost)
+app.post('/post/deletar', crudPost.deletePost)
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta de conexão ${port}.`)

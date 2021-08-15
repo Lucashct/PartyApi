@@ -2,7 +2,7 @@ const { database, dbInfos } = require('../database')
 const Usuario = require('../../models/usuario')
 
 const loginOnApp = async (request, response) => {
-
+  
   const { email, senha } = request.body
 
   const client = new database(dbInfos)
@@ -22,7 +22,7 @@ const loginOnApp = async (request, response) => {
     + 'WHERE senha = $1'
 
   client.query(requisicao, [senha], (error, result) => {
-
+    
     const userReturned = result.rows[0]
 
     if (error) {
@@ -37,9 +37,9 @@ const loginOnApp = async (request, response) => {
       usuarioLogado.setSobrenome(userReturned.sobrenome);
       usuarioLogado.setEmail(userReturned.email);
       usuarioLogado.usuarioOn();
-      response.status(200).json({ mensagem: 'SUCESSO', item: result.rows })
+      response.status(200).json({ mensagem: 'SUCCESS', item: result.rows })
     } else {
-      response.status(400).json({ mensagem: 'ERRO NA REQUISIÇÃO', item: [] })
+      response.status(400).json({ mensagem: 'QUERY_ERROR', item: [] })
     }
   })
 }
