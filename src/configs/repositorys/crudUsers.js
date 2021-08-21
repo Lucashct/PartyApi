@@ -1,6 +1,7 @@
 const Usuario = require("../../models/usuario");
 const { database, dbInfos } = require("../database");
-
+const { generateHashToPWD } = require('../encrypt')
+ 
 const getUsuario = async (request, response) => {
 
   const client = new database(dbInfos)
@@ -64,7 +65,7 @@ const createUsuario = async (request, response) => {
   userCreated.setSobrenome(payload.sobrenome);
   userCreated.setEmail(payload.email);
   userCreated.setIdade(payload.idade);
-  userCreated.setSenha(payload.senha);
+  userCreated.setSenha(generateHashToPWD(payload.senha));
   userCreated.setCidade(payload.cidade);
   userCreated.setEstado(payload.estado);
 
